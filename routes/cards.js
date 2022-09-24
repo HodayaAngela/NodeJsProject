@@ -66,16 +66,17 @@ router.get("/:myCards", auth, async (req, res) => {
   }
 });
 
-// 5 -Full details of a business card
+// 5 -Full details of a business card by id
 router.get("/:id", auth, async (req, res) => {
-    try {
-        let card = await Card.find();
-        res.status(200).send(card);
- }   catch (error) {
-      return res.status(400).send(error);
-    }
-  });
-  
+  try {
+      let card = await Card.findById(req.params._id);
+      if(!card) return res.status(404).send('No such card')
+      res.status(200).send(card);
+}   catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
 //  6-  update card
 router.put("/:id", auth, async (req, res) => {
     try {
